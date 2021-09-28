@@ -9,7 +9,6 @@ const app = express();
 const server = http.createServer(app);
 
 const io = socketIO(server)
-var web = 0;
 
 // io.on('connection', socket => {
 //     console.log('New user connected.');
@@ -30,10 +29,9 @@ var web = 0;
 
 
 
-app.get('/api/esp', (req, res) => {
+app.get('/', (req, res) => {
 
-    console.log(req.query)
-    web = 1
+    console.log(req)
     io.sockets.emit('infoEvent', req.query.temperature)
     res.send('ok')
 })
