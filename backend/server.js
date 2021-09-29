@@ -1,10 +1,14 @@
 const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io')
+const bodyParser = require('body-parser')
 
 const PORT = 3005
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
 
 const server = http.createServer(app);
 
@@ -29,11 +33,12 @@ const io = socketIO(server)
 
 
 
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
 
-    console.log(req)
-    io.sockets.emit('infoEvent', req.query.temperature)
-    res.send('ok')
+    //console.log(req.headers)
+    console.log(req.body)
+  //  io.sockets.emit('infoEvent', req.query)
+    res.sendStatus(200)
 })
 
 server.listen(PORT, () => console.log(`Servidor rodando porta ${PORT}`))
