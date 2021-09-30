@@ -37,7 +37,7 @@ app.post('/', (req, res) => {
 
     //console.log(req.headers)
     console.log(req.body)
-  //  io.sockets.emit('infoEvent', req.query)
+    io.sockets.emit('infoEvent', req.query)
     res.sendStatus(200)
 })
 
