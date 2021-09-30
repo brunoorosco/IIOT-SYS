@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.box{
+  width: 350px;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: solid 1px #777;
+  text-align: center;
+  padding: 10px;
+  display: flex;
+    flex-direction: column;
+}
+.titulo{
+  font-size: 2.75rem;
+  font-weight: bold;
+  color: rgb(4, 62, 187);
+  flex:1;
+}
+
+.sub-titulo{
+  font-size: 2.0rem;
+  font-weight: 600;
+  color: #555;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
