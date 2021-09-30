@@ -22,18 +22,19 @@ function App(props) {
   return (
     <>
       <div className="App">
-        <div>
+        {/* <div>
           <button onClick={() => emitInfoToAll()}>Send information to all connected clients.</button>
-        </div>
+        </div> */}
         <br />
         <div className="box">
-          <div className="titulo">
-            <p>TEMPO:</p>
+          <div className="title">
+            <a>TEMPO:</a>
           </div>
 
-          <div className="sub-titulo">
-            {infoReb}
+          <div className="dado">
+            {infoReb} m
           </div>
+
         </div>
       </div>
     </>
