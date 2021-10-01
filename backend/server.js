@@ -35,11 +35,11 @@ const io = socketIO(server)
 
 app.post('/', (req, res) => {
     const tempo = req.body.tempo
-    const tempoFinal = parseInt(tempo)/60000;
+    const tempoFinal = parseInt(tempo) / 1000;
     //console.log(req.headers)
     console.log(tempo, tempoFinal)
 
-    
+
     io.sockets.emit('infoEvent', tempoFinal.toFixed(2))
     res.sendStatus(200)
 })
