@@ -21,13 +21,8 @@ export const SidebarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Messages',
-        path: '/messages',
+        title: 'Qr Codes',
+        path: '/qrcode',
         cName: 'nav-text'
     },
-    {
-        title: 'Support',
-        path: '/support',
-        cName: 'nav-text'
-    }
 ];
