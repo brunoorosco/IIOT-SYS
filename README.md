@@ -18,6 +18,7 @@
   - Dar entrada e Saída na Produção 
 
 
-*** ReactJS ***
-*** NodeJS ***
-*** ExpoJs ***
+***ReactJS***
+***NodeJS***
+***ExpoJs***
+***TailWind***
