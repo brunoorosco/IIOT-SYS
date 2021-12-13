@@ -1,5 +1,9 @@
-# executar yarn typeorm -h
+> ### **Executar a instalação do Sequelize**
 
-# para verificar se esta funcionando, yarn typeorm --help
+> ### **Subir o Banco**
 
-# yarn typeorm migration:create -n nome da tabela
+> ### **Temos a funcionalidade do Socket.io para fazer a atualização em tempo real do status das OP's e também a a transmissão da leitura de tempo das operações necessárias no chão de fábrica.**
+
+**arquivo de redirecionamento de rotas;
+
+**inicialmente projeto sem autenticação
