@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { SidebarData } from './SidebarRouter';
 
 export default function Sidebar() {
 
@@ -26,10 +27,21 @@ export default function Sidebar() {
 
             <div className='sidebar bg-blue-800 text-blue-100 w-64 space-y-6 py-7 px-2 
                             absolute inset-y-0 left-0 transform -translate-x-full 
-                            md:relative md:translate-x-0 transition duration-200 ease-in-out text-2xl'
-                            id='sidebar'>
+                            md:relative md:translate-x-0 transition duration-200 ease-in-out text-1xl'
+                id='sidebar'>
                 <nav>
-                    <Link to="/qrcode" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 hover:text-white">
+                    {SidebarData.map((item, index) => {
+
+                        <li key={index} className='block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 hover:text-white'>
+                            <Link to={item.path}>
+                                {item.icon}
+                                <span>{item.title}</span>
+                            </Link>
+                        </li>
+                    })
+                    }
+
+                    {/* <Link to="/qrcode" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 hover:text-white">
                         Qr Code's
                     </Link>
                     <Link to="/dash" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 hover:text-white">
@@ -40,7 +52,7 @@ export default function Sidebar() {
                     </Link>
                     <Link to="/op" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-700 hover:text-white">
                         Pedidos
-                    </Link>
+                    </Link> */}
                 </nav>
             </div>
 
