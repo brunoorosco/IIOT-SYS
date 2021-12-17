@@ -11,6 +11,7 @@ const db = require('./database')
 const { nextTick } = require('process')
 const RouteQrCode = require('./routes/qrcode')
 const RouteCelulas = require('./routes/celula')
+const RouteMaquinas = require('./routes/maquina')
 
 const app = express();
 
@@ -78,6 +79,9 @@ app.use('/qrcode', RouteQrCode);
 
 ///////////////// Qrcode
 app.use('/celulas', RouteCelulas);
+
+///////////////// Maq
+app.use('/maquinas', RouteMaquinas);
 
 app.get('/:id', async (req, res) => {
     const data = req.params.id

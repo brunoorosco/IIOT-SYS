@@ -60,7 +60,7 @@ function Producao() {
 
   return (
     <>
-      <div className='mx-auto lg:w-1/2 md:w-full sm:w-full'>
+      <div className='mx-auto lg:w-2/3 md:w-full sm:w-full'>
         <div className="bg-white shadow rounded-lg p-6 xl:w-1/2  mx-auto mt-5">
           <div className="grid lg:grid-cols-2 gap-6">
             <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">

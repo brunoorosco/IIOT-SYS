@@ -1,9 +1,8 @@
-const { query } = require('express')
 const Express = require('express')
-const { now, Json } = require('sequelize/dist/lib/utils')
 const router = Express.Router()
 const Celula = require('../entities/Celula')
-
+const CelMaq = require('../entities/CelMaq')
+const Maquina = require('../entities/Maquina')
 
 router.route('/')
     //verifica se o banco já existe
@@ -41,87 +40,29 @@ const meta = (temp, min) => {
     return parseFloat((min) / (temp / 1000)).toFixed(0)
 }
 
+///função para ler informações sobre a celula de produção, maquinas utilizadas
+router.get('/maquinas/:id', async (req, res) => {
 
-router.route('/producao/finalizada')
-    //verifica se o banco já existe
-    .all(async (req, res, next) => {
-        next()
-    })
-
-    .get(async (req, res) => {
-        const qrcode = await Celula.findAll({
-            where: {
-                finalizado: 'F',
-            }
-        })
-
-        res.json(qrcode).status(200).end()
-    })
-router.route('/entrada')
-    .get(async (req, res) => {
-
-        const qrcode = await Celula.findAll()
-        // console.log(qrcode)
-        res.json(qrcode).status(200).end()
-    })
-
-    .put(async (req, res) => {
-        const { qrEntrada } = { ...req.body }
-        const data = await Celula.findAll({ where: { qrcode: qrEntrada } })
-        // .then(result => {
-        //     const { qrcode } = { ...result }
-        //     console.log(qrcode)
-        // })
-        const { finalizado, entrada } = data[0]
-
-        if (finalizado === 0 && entrada === null) {
-            await Celula.update({
-                entrada: now(),
-                finalizado: 'A'
-            },
-                {
-                    where:
-                    {
-                        qrcode: qrEntrada
-                    }
-                }
-            ).then(count => {
-                console.log('Rows updated ' + count);
-            });
-            res.json({
-                'message': 'ok',
-                'alert': 'green'
-            }).status(200).end()
-        }
-        else {
-            res.json({
-                'message': 'registro já existente',
-                'alert': 'green'
-            }).status(204).end()
+    const cel = req.params.id
+    const celula = await Celula.findByPk(cel)
+    const celmaq = await CelMaq.findAll({
+        where: {
+             idCelula: celula.id
         }
     })
+    console.log(celmaq[0].idMaquina)
+    const maquina = await Maquina.findByPk(celmaq[0].idMaquina)
+    res.json({maquina, celmaq, celula}).status(200).end
 
-router.route('/:id')
-    .get(async (req, res) => {
-        const celula = await Celula.findByPk(req.params.id)
-        res.json(celula).status(200).end()
-    })
+})
 
-    .delete(async (req, res) => {
-        const { id } = req.params
-        if (id !== null) {
-            const celula = await Celula.destroy({
-                where: {
-                    id: id
-                }
-            })
-            res.json().status(200).end()
-        } else {
-            res.json().status(204).end()
-        }
-    })
+///função para ler informações sobre a celula de produção
+router.get('/:id', async (req, res) => {
 
+    const cel = req.params.id
+    const celula = await Celula.findByPk(cel)
+    res.json(celula).status(200).end
 
-
+})
 
 module.exports = router;
