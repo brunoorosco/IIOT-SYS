@@ -1,46 +1,72 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
-import api from '../../services/api';
 import TabelaCelMaq from '../../component/tabelaCelMaq'
-import ModalMaq from '../../component/ModalMaq';
 import Input from '../../component/Form/Input';
 import { Form } from '@unform/web';
+import api from '../../services/api';
 
 function Maq() {
+
     const params = useParams()
+    const history = useHistory()
     const [isModalVisible, setisModalVisible] = useState(false)
+    const [update, setUpdate] = useState(false)
 
     const [celula, setCelula] = useState({
-        id:"",
+        id: "",
         nome: "",
         minutos: 1,
         quantPessoas: 1,
         tempoPadrao: ""
     })
-
     const [maq, setMaq] = useState({
         nome: "",
         tipo: ""
     })
+    const [maquina, setMaquina] = useState(1)
 
 
     useEffect(() => {
         api.get(`celulas/${params.id}`).then(response => {
             setCelula(response.data)
-        })
+        }).catch(e => console.log('erro', e))
+
+        api.get(`maquinas`).then(response => {
+            setMaq(response.data)
+        }).catch(e => console.log('falha ao carregar as maquinas', e))
     }, [])
 
 
     function handleChange(evt) {
         evt.preventDefault()
-        const { name, value } = evt.target;
-        setCelula({
-            ...celula,
-            [name]: value
-        });
+        const { value } = evt.target;
+        setMaquina(value)
     }
 
+    function handleReturn() {
+        history.goBack()
+    }
+
+    async function handleInsertMaq(e) {
+        const data = e
+        data.idMaquina = maquina
+        data.idCelula = params.id
+
+        try {
+            await api.post(`celulas/${params.id}/maquina`, data, {
+                headers: {
+                    //       Authorization: ongId,
+                }
+            })
+            //  setState({ ...state, qrcode: "" })
+            alert('cadastro realizado com sucesso!!!')
+            setUpdate(true)
+        }
+        catch (error) {
+            alert(`Erro ao cadastrar ${error}`)
+        }
+    }
 
     function handleSubmit(e) {
 
@@ -49,8 +75,9 @@ function Maq() {
     return (
         <>
             <div className='mx-auto lg:w-full md:w-full sm:w-full'>
-                <ModalMaq />
+
                 <div className="bg-white shadow rounded-lg p-6 xl:w-1/2  mx-auto mt-5">
+
                     <div className="grid lg:grid-cols-2 gap-6">
                         <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
 
@@ -97,53 +124,64 @@ function Maq() {
                                     type="number" defaultValue={celula.quantPessoas} min='1' disabled />
                             </Form>
                         </div>
+                    </div>
 
-                        <div class="inline-flex rounded shadow-sm border relative p-1" role="group">
+                    <div className='border-red-200 border-b mt-5 mb-5'>
+                        Inserir Máquina
+                    </div>
+                    <div className='grid lg:grid-cols-2 gap-6'>
+
+                        <div className="rounded shadow-sm relative p-1 border " >
                             <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                                 <p>
                                     <label htmlFor="tipoMaq" className="bg-white text-gray-600 px-1">Tipo de Máquina</label>
                                 </p>
                             </div>
-                            <select id="tipoMaq" name="tipoMaquina" className="py-1 px-1 outline-none block h-full w-full text-black"
-                                value={celula.quantPessoas} onChange={handleChange} >
-                                <option>Teste</option>
-                                <option>Teste1234</option>
+
+                            <select id="tipoMaq" name="tipoMaquina" className="py-1 px-1 outline-none block h-full w-full text-black" onChange={handleChange}>
+                                {maq.length > 0 && maq.map((item) => (
+                                    <option value={item.id}>
+                                        {item.tipo}
+                                    </option>
+                                ))}
+
                             </select>
 
-                            <button type="button" data-modal-toggle="authentication-modal"
-                                className="px-4 py-2 text-sm font-medium text-gray-900 bg-white hover:bg-gray-100 hover:text-gray-700 focus:z-10 focus:ring-1 
-                        focus:ring-gray-500 focus:text-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 
-                        dark:focus:ring-blue-500 dark:focus:text-white">
-                                <FaPlus />
-                            </button>
                         </div>
 
-                        <Form>
-                            <div className="border focus-within:border-blue-500 focus-within:text-gray-800 transition-all duration-500 relative rounded p-1">
+
+                        <Form onSubmit={handleInsertMaq}>
+                            <div className="relative text-gray-700 border focus-within:border-blue-500 focus-within:text-gray-800 transition-all duration-500 p-1">
                                 <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                                     <p>
                                         <label htmlFor="nomeMaq" className="bg-white text-gray-600 px-1">Nome da Máquina</label>
                                     </p>
                                 </div>
 
-                                <Input id="nomeMaq" name="nomeMaq" className="py-1 px-1 outline-none block h-full w-full" value={maq.nome} />
+                                <Input id="nomeMaq" name="nomeMaq" className=" py-1 px-1 outline-none block h-full w-full" />
 
+                                <button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-green-600 rounded-r hover:bg-green-500 
+                            focus:bg-green-700 focus:outline-none" type="Submit">
+                                    <FaPlus />
+                                </button>
                             </div>
                         </Form>
-
                     </div>
-                    <TabelaCelMaq id={celula.id} update='1' />
 
-                    <div className="border-t mt-6 pt-3">
-                        <button className="rounded text-gray-100 px-3 py-2 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300"
+                    <TabelaCelMaq id={celula.id} update={update} />
+
+                    <div className="border-t mt-6 pt-3 w-full flex">
+                        <button className="w-full rounded text-gray-100 px-3 py-2 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300"
                             onClick={handleSubmit}>Salvar
                         </button>
+                        <button className="w-full rounded px-3 py-2 bg-gray-200 hover:shadow-inner hover:bg-gray-300 transition-all duration-300 ml-2"
+                            onClick={handleReturn}>Voltar
+                        </button>
 
-                        <button type="button" onClick={() => setisModalVisible(true)}> Salvar </button>
-                        <ModalMaq onClose={() => { setisModalVisible(false) }} />
+                        {/* <button type="button" onClick={() => setisModalVisible(true)}> Salvar </button>
+                        <ModalMaq onClose={() => { setisModalVisible(false) }} /> */}
                     </div>
                 </div>
-
 
             </div>
         </>

@@ -20,7 +20,7 @@ router.route('/')
     .post(async (req, res) => {
 
         const qr = await Maquina.create({
-            // maquina: celula, minutos: minutos, tempoPadrao: tempoPadrao, quantPessoas: quantPessoas
+           
             ...req.body //substitui tudo que esta acima
 
         });

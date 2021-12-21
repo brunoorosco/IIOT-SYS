@@ -28,8 +28,6 @@ function TabelaCelula({ update }) {
         )
     }
 
-
-
     return (
 
         <div className="justify-center mt-5">

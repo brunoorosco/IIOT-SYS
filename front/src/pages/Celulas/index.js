@@ -15,7 +15,6 @@ function Producao() {
 
   useEffect(() => {
     let valor = state.quantPessoas * 60
-    console.log(state.quantPessoas, valor)
     setState({ ...state, minutos: valor })
   }, [state.quantPessoas])
 
@@ -56,7 +55,7 @@ function Producao() {
     }
   }
 
- 
+
 
   return (
     <>

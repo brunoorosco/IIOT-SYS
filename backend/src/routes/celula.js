@@ -44,15 +44,26 @@ const meta = (temp, min) => {
 router.get('/maquinas/:id', async (req, res) => {
 
     const cel = req.params.id
-    const celula = await Celula.findByPk(cel)
-    const celmaq = await CelMaq.findAll({
-        where: {
-             idCelula: celula.id
-        }
-    })
-    console.log(celmaq[0].idMaquina)
-    const maquina = await Maquina.findByPk(celmaq[0].idMaquina)
-    res.json({maquina, celmaq, celula}).status(200).end
+    
+    if (cel !== undefined) {
+        const celula = await Celula.findByPk(cel)
+        const celmaq = await CelMaq.findAll({
+            where: {
+                idCelula: celula.id
+            }
+        })
+
+        const id = celmaq.map(item => item.idMaquina); //filtra os ID
+        
+        const maquina = await Maquina.findAll({
+            where: {
+                id: id //seleciona todos id conforme array
+            }
+        })
+        console.log(maquina)
+        res.json({ maquina, celmaq, celula }).status(200).end
+    }
+    res.status(200)
 
 })
 
@@ -63,6 +74,18 @@ router.get('/:id', async (req, res) => {
     const celula = await Celula.findByPk(cel)
     res.json(celula).status(200).end
 
+})
+
+router.post('/:id/maquina', async (req, res) => {
+
+    console.log(req.body)
+    const resposta = await CelMaq.create({
+        ...req.body
+    });
+
+    res.json(resposta)
+        .status(200)
+        .end
 })
 
 module.exports = router;
