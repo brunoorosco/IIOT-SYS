@@ -10,6 +10,9 @@ const CelMaq = db.define('celmaq',
             autoIncrement: true,
             allowNull: false,
             primaryKey: true
+        },
+        nomeMaq: {
+            type: Sequelize.STRING(50),
         }
 
     })
@@ -17,14 +20,12 @@ const CelMaq = db.define('celmaq',
 Celula.hasMany(CelMaq, {
     constraints: true,
     foreignKey: 'idCelula',
-    allowNull: false,
     type: Sequelize.INTEGER
 })
 
 Maq.hasMany(CelMaq, {
     constraints: true,
     foreignKey: 'idMaquina',
-    allowNull: false,
     type: Sequelize.INTEGER
 })
 

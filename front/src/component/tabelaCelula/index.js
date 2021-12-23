@@ -36,11 +36,11 @@ function TabelaCelula({ update }) {
                     <table className="table text-gray-400 border-separate space-y-6 w-full text-sm">
                         <thead className="bg-gray-50 text-gray-500">
                             <tr>
-                                <th className="p-3">Célula</th>
-                                <th className="p-3 text-left">Quant. Pessoas</th>
-                                <th className="p-3 text-left">Tempo Padrão</th>
-                                <th className="p-3 text-left">Minutos Disponível</th>
-                                <th className="p-3 text-left">Ação</th>
+                                <th className="p-3 text-left">Célula</th>
+                                <th className="p-3 text-center">Quant. Pessoas</th>
+                                <th className="p-3 text-center">Tempo Padrão</th>
+                                <th className="p-3 text-center">Minutos Disponível</th>
+                                <th className="p-3 text-center">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,7 +67,7 @@ function TabelaCelula({ update }) {
                                         <td className="p-3 text-center">
                                             <span className="bg-green-400 text-gray-50 rounded-md px-2">{cel.minutos}</span>
                                         </td>
-                                        <td className="p-3 flex inline-block">
+                                        <td className="p-3 justify-center flex inline-block">
                                             <button className="text-gray-400 hover:text-black mr-2">
                                                 <i className="material-icons-outlined text-base"><FaEye /></i>
                                             </button>

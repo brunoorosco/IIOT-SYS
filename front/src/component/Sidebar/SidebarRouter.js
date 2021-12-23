@@ -12,7 +12,7 @@ export const SidebarData = [
     },
     {
         title: 'Produção',
-        path: '/celula',
+        path: '/celulas',
         cName: 'nav-text'
     },
     {

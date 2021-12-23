@@ -69,7 +69,13 @@ function Maq() {
     }
 
     function handleSubmit(e) {
-
+        const data = {}
+        
+        data.celula = document.getElementsByTagName("input")['celula'].value
+        data.tempo = document.getElementsByTagName("input")['tempo'].value
+        data.minutos = document.getElementsByTagName("input")['minutos'].value
+        data.pessoas = document.getElementsByTagName("input")['pessoas'].value
+        console.log(data)
     }
 
     return (
@@ -88,7 +94,7 @@ function Maq() {
                             </div>
                             <Form>
                                 <Input id="celula" className="py-1 px-1 text-gray-900 outline-none block h-full w-full"
-                                    name='nome' defaultValue={celula.nome} disabled />
+                                    name='nome' defaultValue={celula.nome} />
                             </Form>
                         </div>
                         <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
@@ -99,7 +105,7 @@ function Maq() {
                             </div>
                             <Form>
                                 <Input id="tempo" className="py-1 px-1 outline-none block h-full w-full" type='number'
-                                    name="tempoPadrao" defaultValue={celula.tempoPadrao} disabled />
+                                    name="tempoPadrao" defaultValue={celula.tempoPadrao} />
                             </Form>
                         </div>
                         <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
@@ -110,7 +116,7 @@ function Maq() {
                             </div>
                             <Form>
                                 <Input id="minutos" className="py-1 px-1 outline-none block h-full w-full"
-                                    name="minutos" defaultValue={celula.minutos} disabled />
+                                    name="minutos" defaultValue={celula.minutos} />
                             </Form>
                         </div>
                         <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
@@ -121,12 +127,12 @@ function Maq() {
                             </div>
                             <Form>
                                 <Input id="pessoas" name="quantPessoas" className="py-1 px-1 outline-none block h-full w-full"
-                                    type="number" defaultValue={celula.quantPessoas} min='1' disabled />
+                                    type="number" defaultValue={celula.quantPessoas} min='1' />
                             </Form>
                         </div>
                     </div>
 
-                    <div className='border-red-200 border-b mt-5 mb-5'>
+                    <div className='text-gray-400 border-red-200 border-b mt-5 mb-5'>
                         Inserir Máquina
                     </div>
                     <div className='grid lg:grid-cols-2 gap-6'>
@@ -172,7 +178,7 @@ function Maq() {
 
                     <div className="border-t mt-6 pt-3 w-full flex">
                         <button className="w-full rounded text-gray-100 px-3 py-2 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300"
-                            onClick={handleSubmit}>Salvar
+                            onClick={handleSubmit.bind(this, celula)}>Salvar
                         </button>
                         <button className="w-full rounded px-3 py-2 bg-gray-200 hover:shadow-inner hover:bg-gray-300 transition-all duration-300 ml-2"
                             onClick={handleReturn}>Voltar

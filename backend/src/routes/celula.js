@@ -7,7 +7,7 @@ const Maquina = require('../entities/Maquina')
 router.route('/')
     //verifica se o banco já existe
     .all(async (req, res, next) => {
-        const qrcode = Celula
+        const qrcode = CelMaq
         await qrcode.sync()
         next()
     })
@@ -42,25 +42,29 @@ const meta = (temp, min) => {
 
 ///função para ler informações sobre a celula de produção, maquinas utilizadas
 router.get('/maquinas/:id', async (req, res) => {
-
     const cel = req.params.id
-    
+
     if (cel !== undefined) {
+        
         const celula = await Celula.findByPk(cel)
+        
         const celmaq = await CelMaq.findAll({
             where: {
                 idCelula: celula.id
             }
         })
 
-        const id = celmaq.map(item => item.idMaquina); //filtra os ID
-        
+        const idCelMaq = celmaq.map(item => item.idMaquina); //filtra os ID
+      
         const maquina = await Maquina.findAll({
             where: {
-                id: id //seleciona todos id conforme array
+                id: idCelMaq //seleciona todos id conforme array
             }
         })
-        console.log(maquina)
+        
+
+  //      console.log(maquina[0].dataValues)
+
         res.json({ maquina, celmaq, celula }).status(200).end
     }
     res.status(200)
@@ -76,16 +80,27 @@ router.get('/:id', async (req, res) => {
 
 })
 
-router.post('/:id/maquina', async (req, res) => {
+router.route('/:id/maquina')
+    .post(async (req, res) => {
+        
+        const resposta = await CelMaq.create({
+            ...req.body
+        });
+        
+        res.json(resposta)
+            .status(200)
+            .end
+    })
+    .delete(async (req, res) => {
+        const resposta = await CelMaq.destroy({
+            where: {
+                ...req.body
+            }
+        });
 
-    console.log(req.body)
-    const resposta = await CelMaq.create({
-        ...req.body
-    });
-
-    res.json(resposta)
-        .status(200)
-        .end
-})
+        res.json(resposta)
+            .status(200)
+            .end
+    })
 
 module.exports = router;

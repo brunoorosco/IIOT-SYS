@@ -7,22 +7,39 @@ import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 function TabelaCelMaq({ update, id }) {
 
     const [maquina, setMaquina] = useState({})
+    const [nomeMaqCel, setNomeMaqCel] = useState({})
     const [atualizaTabela, setAtualizaTabela] = useState(0)
 
     useEffect(() => {
         api.get(`celulas/maquinas/${id}`).then(response => {
             setMaquina(response.data.maquina)
+            setNomeMaqCel(response.data.celmaq)
         }).catch(e => console.error(e))
         setAtualizaTabela(false)
     }, [update, atualizaTabela, id])
 
 
 
-    function handleDelete(id, evt) {
+    async function handleDelete(idMaq, evt) {
         evt.preventDefault()
-        api.delete(`celulas/maquinas/${id}`).then(response =>
+        const data = {}
+        data.idMaquina = idMaq
+        data.idCelula = id
+        console.log(data)
+
+        try {
+            await api.delete(`celulas/${id}/maquina`, { data }, {
+                headers: {
+                    //       Authorization: ongId,
+                }
+            })
+            //  setState({ ...state, qrcode: "" })
+            alert('Exclusão realizado com sucesso!!!')
             setAtualizaTabela(true)
-        )
+        }
+        catch (error) {
+            alert(`Erro ao cadastrar ${error}`)
+        }
     }
 
 
@@ -33,10 +50,10 @@ function TabelaCelMaq({ update, id }) {
                     <table className="table text-gray-400 border-separate space-y-6 w-full text-sm">
                         <thead className="bg-gray-50 text-gray-500">
                             <tr>
-                                <th className="p-3">Máquina</th>
-                                <th className="p-3 text-left">Tipo</th>
-                                <th className="p-3 text-left">Nome</th>
-                                <th className="p-3 text-left">Ação</th>
+                                <th className="p-3 text-left">Máquina</th>
+                                <th className="p-3 text-center">Tipo</th>
+                                <th className="p-3 text-center">Nome</th>
+                                <th className="p-3 text-center">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,7 +63,7 @@ function TabelaCelMaq({ update, id }) {
 
                                     <tr className="bg-gray-100" key={maq.id}>
 
-                                        <td className="p-3">
+                                        <td className="p-3 text-left">
                                             <div className="flex align-items-center">
                                                 {/* <img className='rounded-full h-12 w-12  object-cover' alt='imageid'
                                                     src="https://images.unsplash.com/photo-1613588718956-c2e80305bf61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=634&q=80" /> */}
@@ -62,9 +79,9 @@ function TabelaCelMaq({ update, id }) {
                                         </td>
 
                                         <td className="p-3 text-center">
-                                            <span className="bg-green-400 text-gray-50 rounded-md px-2"></span>
+                                            <span className="bg-green-400 text-gray-50 rounded-md px-2">{}</span>
                                         </td>
-                                        <td className="p-3 flex inline-block">
+                                        <td className="p-3 flex inline-block justify-center">
                                             {/* <button className="text-gray-400 hover:text-black mr-2">
                                                 <i className="material-icons-outlined text-base"><FaEye /></i>
                                             </button> */}
