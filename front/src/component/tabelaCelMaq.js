@@ -7,13 +7,13 @@ import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 function TabelaCelMaq({ update, id }) {
 
     const [maquina, setMaquina] = useState({})
-    const [nomeMaqCel, setNomeMaqCel] = useState({})
+    const [maqCel, setMaqCel] = useState({})
     const [atualizaTabela, setAtualizaTabela] = useState(0)
 
     useEffect(() => {
         api.get(`celulas/maquinas/${id}`).then(response => {
             setMaquina(response.data.maquina)
-            setNomeMaqCel(response.data.celmaq)
+            setMaqCel(response.data.celmaq)
         }).catch(e => console.error(e))
         setAtualizaTabela(false)
     }, [update, atualizaTabela, id])
@@ -51,15 +51,15 @@ function TabelaCelMaq({ update, id }) {
                         <thead className="bg-gray-50 text-gray-500">
                             <tr>
                                 <th className="p-3 text-left">Máquina</th>
-                                <th className="p-3 text-center">Tipo</th>
+                              
                                 <th className="p-3 text-center">Nome</th>
                                 <th className="p-3 text-center">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                maquina.length > 0 && //condição para não gerar erro de componente renderizar e os dados não chegarem
-                                maquina.map((maq, index) => (
+                                maqCel.length > 0 && //condição para não gerar erro de componente renderizar e os dados não chegarem
+                                maqCel.map((maq, index) => (
 
                                     <tr className="bg-gray-100" key={maq.id}>
 
@@ -70,16 +70,14 @@ function TabelaCelMaq({ update, id }) {
 
                                                 <div className="ml-3">
                                                     {/* <div className="">Appple</div> */}
-                                                    <div className="text-gray-700 text-base">{maq.nome}</div>
+                                                    <div className="text-gray-700 text-base">{maq.idMaquina.tipo}</div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="text-center p-3">
-                                            {maq.tipo}
-                                        </td>
+                                      
 
                                         <td className="p-3 text-center">
-                                            <span className="bg-green-400 text-gray-50 rounded-md px-2">{}</span>
+                                            <span className="bg-green-400 text-gray-50 rounded-md px-2">{maq.nomeMaq}</span>
                                         </td>
                                         <td className="p-3 flex inline-block justify-center">
                                             {/* <button className="text-gray-400 hover:text-black mr-2">
@@ -88,7 +86,7 @@ function TabelaCelMaq({ update, id }) {
                                             {/* <Link to={`/maquina/${maq.id}`} className="text-gray-400 hover:text-black mx-2">
                                                 <i className="material-icons-outlined text-base"><FaEdit /></i>
                                             </Link> */}
-                                            <button onClick={handleDelete.bind(this, maq.id)} className="text-gray-400 hover:text-black  ml-2">
+                                            <button onClick={handleDelete.bind(this, maq.idMaquina.id)} className="text-gray-400 hover:text-black  ml-2">
                                                 <i className="material-icons-round text-base"><FaTrash /></i>
                                             </button>
                                         </td>

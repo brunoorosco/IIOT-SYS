@@ -45,25 +45,36 @@ router.get('/maquinas/:id', async (req, res) => {
     const cel = req.params.id
 
     if (cel !== undefined) {
-        
+
         const celula = await Celula.findByPk(cel)
-        
+
         const celmaq = await CelMaq.findAll({
             where: {
                 idCelula: celula.id
             }
         })
 
+        console.log('[LOGGER]'+ celmaq[0].idMaquina + '\n')
+
         const idCelMaq = celmaq.map(item => item.idMaquina); //filtra os ID
-      
+
+
         const maquina = await Maquina.findAll({
             where: {
                 id: idCelMaq //seleciona todos id conforme array
             }
         })
-        
 
-  //      console.log(maquina[0].dataValues)
+        console.log('[LOGGER]'+celmaq.length+'\n')
+            //fuction para pegar o valor de id do relacionamento e injetar direto as informações das maquinass
+        //     if(celmaq.length > 1){
+        //     celmaq.forEach(o => {
+        //         o.idMaquina = o.filter()//maquina[o.idMaquina - 1].dataValues
+        //     });
+        // }
+         const teste = celmaq.filter(m => m.idMaquina ===2)   
+         console.log(teste)
+       
 
         res.json({ maquina, celmaq, celula }).status(200).end
     }
@@ -82,11 +93,11 @@ router.get('/:id', async (req, res) => {
 
 router.route('/:id/maquina')
     .post(async (req, res) => {
-        
+
         const resposta = await CelMaq.create({
             ...req.body
         });
-        
+
         res.json(resposta)
             .status(200)
             .end
