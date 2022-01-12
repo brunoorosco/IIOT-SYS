@@ -1,5 +1,4 @@
 const Express = require('express')
-const { now, Json } = require('sequelize/dist/lib/utils')
 const router = Express.Router()
 const Maquina = require('../entities/Maquina')
 

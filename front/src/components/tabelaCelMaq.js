@@ -60,7 +60,7 @@ function TabelaCelMaq({ update, id }) {
                             {
                                 maqCel.length > 0 && //condição para não gerar erro de componente renderizar e os dados não chegarem
                                 maqCel.map((maq, index) => (
-
+                                  
                                     <tr className="bg-gray-100" key={maq.id}>
 
                                         <td className="p-3 text-left">
@@ -70,7 +70,7 @@ function TabelaCelMaq({ update, id }) {
 
                                                 <div className="ml-3">
                                                     {/* <div className="">Appple</div> */}
-                                                    <div className="text-gray-700 text-base">{maq.idMaquina.tipo}</div>
+                                                    <div className="text-gray-500 text-base">{maq.idMaquina[0].nome} | {maq.idMaquina[0].tipo}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -90,6 +90,7 @@ function TabelaCelMaq({ update, id }) {
                                                 <i className="material-icons-round text-base"><FaTrash /></i>
                                             </button>
                                         </td>
+                                       
                                     </tr>
                                 ))
                             }

@@ -1,5 +1,5 @@
 import React from 'react'
-import TabelaQrcode from '../../component/tabelaQrCode'
+import TabelaQrcode from '../../components/TableProducion'
 
 function NumOp() {
     return (

@@ -36,10 +36,9 @@ function TabelaCelula({ update }) {
                     <table className="table text-gray-400 border-separate space-y-6 w-full text-sm">
                         <thead className="bg-gray-50 text-gray-500">
                             <tr>
-                                <th className="p-3 text-left">Célula</th>
+                                <th className="p-3 text-left">Setores</th>
+                                <th className="p-3 text-center">Quant. Células</th>
                                 <th className="p-3 text-center">Quant. Pessoas</th>
-                                <th className="p-3 text-center">Tempo Padrão</th>
-                                <th className="p-3 text-center">Minutos Disponível</th>
                                 <th className="p-3 text-center">Ação</th>
                             </tr>
                         </thead>

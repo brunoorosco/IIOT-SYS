@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import Input from "../../components/Input";
 import TabelaCelula from "../../components/tabelaCelula";
 import api from '../../services/api'
-import Input from "../../components/Input";
 
 
-function Producao() {
+function Setor() {
 
   const [atualizar, setUpdate] = useState(false)
   const [state, setState] = useState({
@@ -56,13 +56,12 @@ function Producao() {
     }
   }
 
-
-
   return (
     <>
       <div className='mx-auto lg:w-2/3 md:w-full sm:w-full'>
         <div className="bg-white shadow rounded-lg p-6 xl:w-1/2  mx-auto mt-5">
           <div className="grid lg:grid-cols-2 gap-6">
+
             <Input id="celula" labelText="Nome da Celula"
               clInput="py-1 px-1 text-gray-900 outline-none block h-full w-full"
               clLabel="bg-white text-gray-600 px-1 uppercase"
@@ -87,20 +86,19 @@ function Producao() {
               name='quantPessoas' type='number' min='1' value={state.quantPessoas}
               onChange={handleChange} />
           </div>
-          <div className="border-t mt-6 pt-3">
+          <div className="border-t mt-6 pt-3 ">
             <button className="w-full rounded text-gray-100 px-3 py-2 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300"
               onClick={handleSubmit}>Salvar
             </button>
           </div>
         </div>
 
-        <div>
 
-          <TabelaCelula update={atualizar} />
-        </div>
+        <TabelaCelula update={atualizar} />
+
       </div>
     </>
   );
 }
 
-export default Producao;
+export default Setor;

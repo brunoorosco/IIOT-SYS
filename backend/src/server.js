@@ -7,11 +7,11 @@ const qr = require('qr-image')
 const cors = require('cors')
 const db = require('./database')
 
-
-const { nextTick } = require('process')
-const RouteQrCode = require('./routes/qrcode')
-const RouteCelulas = require('./routes/celula')
-const RouteMaquinas = require('./routes/maquina')
+const RouteQrCode = require('./routes/qrcode.routes')
+const RouteCelulas = require('./routes/celula.routes')
+const RouteMaquinas = require('./routes/maquina.routes')
+const RouteColors = require('./routes/color.routes')
+const RouteProducts = require('./routes/products.routes')
 
 const app = express();
 
@@ -82,6 +82,8 @@ app.use('/celulas', RouteCelulas);
 
 ///////////////// Maq
 app.use('/maquinas', RouteMaquinas);
+///////////////// Colors
+app.use('/colors', RouteColors);
 
 app.get('/:id', async (req, res) => {
     const data = req.params.id

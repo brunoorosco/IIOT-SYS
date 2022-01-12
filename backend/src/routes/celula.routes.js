@@ -3,6 +3,9 @@ const router = Express.Router()
 const Celula = require('../entities/Celula')
 const CelMaq = require('../entities/CelMaq')
 const Maquina = require('../entities/Maquina')
+const CelulaService = require('../resource/celula/celula.service')
+
+var celulaService = new CelulaService()
 
 router.route('/')
     //verifica se o banco já existe
@@ -18,15 +21,13 @@ router.route('/')
     })
 
     .post(async (req, res) => {
-
-        const qr = await Celula.create({
-            // celula: celula, minutos: minutos, tempoPadrao: tempoPadrao, quantPessoas: quantPessoas
-            ...req.body //substitui tudo que esta acima
-
-        });
-
+        //  const {nome, minutos, quantPessoas, tempoPadrao} = req.body
+        const result = await celulaService.create(req.body)
+        console.log("LOGGER= " + result)
         res.json({ 'message': 'ok' }).status(200).end()
     })
+
+
 
 router.get('/dash', async (req, res) => {
     const celula = await Celula.findAll()
@@ -54,7 +55,7 @@ router.get('/maquinas/:id', async (req, res) => {
             }
         })
 
-        console.log('[LOGGER]'+ celmaq[0].idMaquina + '\n')
+        // console.log('[LOGGER]' + celmaq[0].idMaquina + '\n')
 
         const idCelMaq = celmaq.map(item => item.idMaquina); //filtra os ID
 
@@ -65,16 +66,16 @@ router.get('/maquinas/:id', async (req, res) => {
             }
         })
 
-        console.log('[LOGGER]'+celmaq.length+'\n')
-            //fuction para pegar o valor de id do relacionamento e injetar direto as informações das maquinass
-        //     if(celmaq.length > 1){
-        //     celmaq.forEach(o => {
-        //         o.idMaquina = o.filter()//maquina[o.idMaquina - 1].dataValues
-        //     });
-        // }
-         const teste = celmaq.filter(m => m.idMaquina ===2)   
-         console.log(teste)
-       
+        // console.log('[LOGGER]'+ maquina[0].id +'\n')
+        //console.log('[LOGGER]'+celmaq.length+'\n')
+        //fuction para pegar o valor de id do relacionamento e injetar direto as informações das maquinass
+        if (celmaq.length > 1) {
+            celmaq.forEach(o => {
+
+                o.idMaquina = maquina.filter(m => m.id === o.idMaquina)
+
+            });
+        }
 
         res.json({ maquina, celmaq, celula }).status(200).end
     }
@@ -89,6 +90,11 @@ router.get('/:id', async (req, res) => {
     const celula = await Celula.findByPk(cel)
     res.json(celula).status(200).end
 
+})
+router.delete('/:id', async (req, res) => {
+    const result = await celulaService.delete(req.params)
+    console.log(result)
+    res.json({ 'message': 'excluido' })
 })
 
 router.route('/:id/maquina')
